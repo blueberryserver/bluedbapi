@@ -1,0 +1,21 @@
+conf:
+  - dbver: trunk
+    host: '0.0.0.0'
+    user: user
+    pw: -ppasswd
+    line: 2
+    path: trunk/dump/files
+
+  - dbver: ub24
+    host: '0.0.0.0'
+    user: user
+    pw: -ppasswd
+    line: 2
+    path: ub22/dump/files
+
+  - dbver: ub25
+    host: '0.0.0.0'
+    user: user
+    pw: -ppasswd
+    line: 2
+    path: ub21/dump/files

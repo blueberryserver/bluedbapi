@@ -1,0 +1,8 @@
+global:
+  - setting_table
+
+user:
+  - user_data_table
+
+log:
+  - log_table
