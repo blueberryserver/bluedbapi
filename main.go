@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	dbrouter "github.com/blueberryserver/dbapi/router"
+	dbrouter "github.com/blueberryserver/bluedbapi/router"
 	"github.com/rs/cors"
 
 	"github.com/blueberryserver/bluecore"
