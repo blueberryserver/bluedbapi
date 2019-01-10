@@ -6,7 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"process"
+
+	"github.com/blueberryserver/bluecore/blueprocess"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -51,7 +52,7 @@ func dbExport(config Config) error {
 		}
 		fmt.Println(option)
 
-		err := process.Execute("mysqldump.exe", dumpfile, option...)
+		err := blueprocess.Execute("mysqldump.exe", dumpfile, option...)
 
 		if err != nil {
 			return err
@@ -65,7 +66,7 @@ func dbCreate(config Config) error {
 
 		fmt.Printf("create %s\r\n", database)
 
-		err := process.Execute("mysqladmin.exe", "", "-h", config.Host, "--port", config.Port, "-u", config.User, config.Pw, "create", database)
+		err := blueprocess.Execute("mysqladmin.exe", "", "-h", config.Host, "--port", config.Port, "-u", config.User, config.Pw, "create", database)
 		if err != nil {
 			return err
 		}
@@ -92,7 +93,7 @@ func dbImport(config Config) error {
 			fmt.Println("file open errer")
 			return err
 		}
-		err = process.ExecutePipeIn("mysql.exe", string(dump), "-h", config.Host, "--port", config.Port, "-u", config.User, config.Pw, database)
+		err = blueprocess.ExecutePipeIn("mysql.exe", string(dump), "-h", config.Host, "--port", config.Port, "-u", config.User, config.Pw, database)
 
 		if err != nil {
 			return err

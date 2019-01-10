@@ -1,20 +1,20 @@
 package router
 
 import (
-	"cp"
 	"encoding/json"
 	"fmt"
 	"log"
-	"merge"
 	"net/http"
 	"os"
 	"path/filepath"
-	"process"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/blueberryserver/bluecore"
+	"github.com/blueberryserver/bluecore/bluecp"
+	"github.com/blueberryserver/bluecore/bluemerge"
+	"github.com/blueberryserver/bluecore/blueprocess"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -53,7 +53,7 @@ func dump(tables []string, config dumpConfig, database string) error {
 			defer wg.Done()
 
 			// mysqmdump.exe 실행 테입블 덤프
-			err := process.Execute("./bin/mysqldump.exe", tempname, "--skip-opt", "--net_buffer_length=409600", "--create-options", "--disable-keys",
+			err := blueprocess.Execute("./bin/mysqldump.exe", tempname, "--skip-opt", "--net_buffer_length=409600", "--create-options", "--disable-keys",
 				"--lock-tables", "--quick", "--set-charset", "--extended-insert", "--single-transaction", "--add-drop-table", "--no-create-db", "-h",
 				config.Host, "-u", config.User, config.Pw, database, tablename)
 			if err != nil {
@@ -64,14 +64,14 @@ func dump(tables []string, config dumpConfig, database string) error {
 
 			if config.Line != "1" {
 				// ),( -> )\n( 변경 작업 줄바꿈 처리
-				err = process.Execute("./bin/sed.exe", name, "s/),(/),\\\\r\\\\n(/g", tempname)
+				err = blueprocess.Execute("./bin/sed.exe", name, "s/),(/),\\\\r\\\\n(/g", tempname)
 				if err != nil {
 					log.Println(err)
 					messageChan <- name + " fail"
 					return
 				}
 			} else {
-				err = process.Execute("./bin/sed.exe", name, "", tempname)
+				err = blueprocess.Execute("./bin/sed.exe", name, "", tempname)
 				if err != nil {
 					log.Println(err)
 					messageChan <- name + " fail"
@@ -79,7 +79,7 @@ func dump(tables []string, config dumpConfig, database string) error {
 				}
 			}
 
-			cp.RM(tempname)
+			bluecp.RM(tempname)
 
 			messageChan <- tablename + " success"
 		}(table, filename, tempfilename)
@@ -102,10 +102,10 @@ func dump(tables []string, config dumpConfig, database string) error {
 	var resultfilename = config.Path + "/" + database + "_" + temp + ".sql"
 
 	//merge.MERGE(resultfilename, config.Tables...)
-	merge.MERGE(resultfilename, filenames...)
+	bluemerge.MERGE(resultfilename, filenames...)
 	bluecore.ZipFiles(config.Path+"\\"+database+"_"+temp+".zip", filenames)
 	for _, file := range filenames {
-		cp.RM(file)
+		bluecp.RM(file)
 	}
 
 	//downloadFile(database+".zip", "http://localhost:8080/"+database+".zip")
