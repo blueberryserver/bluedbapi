@@ -3,11 +3,16 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:811157720822f53b9a35799894263e7456e1352432cb70226081151dfa2bdb38"
+  digest = "1:037f2eed4198f3401ddb499af7e474b55d04bc85cf3589ea6a2843e9655edc87"
   name = "github.com/blueberryserver/bluecore"
-  packages = ["."]
+  packages = [
+    ".",
+    "bluecp",
+    "bluemerge",
+    "blueprocess",
+  ]
   pruneopts = "UT"
-  revision = "5638625b4a52acfec41ff2d1fa98c0a640baed6a"
+  revision = "73a67ee97ab5328375d07ff94bdbe15ec1165e93"
 
 [[projects]]
   digest = "1:f97285a3b0a496dcf8801072622230d513f69175665d94de60eb042d03387f6c"
@@ -16,6 +21,14 @@
   pruneopts = "UT"
   revision = "348b672cd90d8190f8240323e372ecd1e66b59dc"
   version = "v1.2.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:d0c95a34e79df79eb96ca870d6b6fc43361d34c9c05495f93a5ad0077f7bbb24"
+  name = "github.com/mitchellh/go-ps"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4fdf99ab29366514c69ccccddab5dc58b8d84062"
 
 [[projects]]
   digest = "1:b0c25f00bad20d783d259af2af8666969e2fc343fa0dc9efe52936bbd67fb758"
@@ -54,6 +67,9 @@
   analyzer-version = 1
   input-imports = [
     "github.com/blueberryserver/bluecore",
+    "github.com/blueberryserver/bluecore/bluecp",
+    "github.com/blueberryserver/bluecore/bluemerge",
+    "github.com/blueberryserver/bluecore/blueprocess",
     "github.com/julienschmidt/httprouter",
     "github.com/rs/cors",
   ]
